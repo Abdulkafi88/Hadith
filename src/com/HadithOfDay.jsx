@@ -1,31 +1,36 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
+
 const HadithOfDay = () => {
-    const [hadith,sethadith] = useState([])
-    useEffect(()=>{
-        const getHeadth =  async()=>{
-            try{
-                const res = await fetch('https://random-hadith-generator.vercel.app/bukhari/')
-                const data = await res.json()
-                if(data.data){
-                    sethadith(data)
-                }
-                console.log(data.data)
-            }catch(err){
-                console.log(err)
-            }
-        }
-        getHeadth()
-    },[])
+  const [hadith, setHadith] = useState([])
+
+  useEffect(() => {
+    const getHadith = async () => {
+      try {
+        const res = await fetch(
+          "https://api.hadith.gading.dev/books/muslim?range=100-149"
+        )
+        const responded = await res.json()
+        console.log(responded.data.hadiths)
+        setHadith(responded.data.hadiths)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    getHadith()
+  }, [])
+
   return (
     <React.Fragment>
-      <div className="flex justify-center items-center mt-96 ">
-        <div className=" bg-white w-2/5 h-80 ">
-            <p className="">dsfsfs</p>
-           
+      <div className="flex justify-center items-center mt-96">
+        <div className="bg-white w-2/5 h-80">
+          {hadith.map((info, index) => (
+            <p key={index}>{info.arab}</p>
+          ))}
         </div>
       </div>
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default HadithOfDay;
+export default HadithOfDay
